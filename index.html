@@ -31,9 +31,9 @@
     var markers = new L.MarkerClusterGroup();
 		
 	var geoJsonLayer = L.geoJson(places, {
-		pointToLayer: L.mapbox.marker.style,
-		onEachFeature: function (feature, layer) {
-			layer.bindPopup("<b>" + feature.properties.name + "</b><hr>Country: " + feature.properties.adm0name + "<br>Population: " + feature.properties.pop_max + "<hr><button href='#'>Project Details</button>");
+        onEachFeature: function (feature, layer) {
+            layer.setIcon(L.mapbox.marker.icon({'marker-symbol': 'circle', 'marker-color': '031148'}));
+            layer.bindPopup("<b>" + feature.properties.name + "</b><hr>Country: " + feature.properties.adm0name + "<br>Population: " + feature.properties.pop_max + "<hr><button href='#'>Project Details</button>");
 		}
 	});
 	markers.addLayer(geoJsonLayer);
