@@ -29,17 +29,10 @@
         .setView([10, 0], 3);
 
     var markers = new L.MarkerClusterGroup();
-
-    //for (var i = 0; i < places.length; i++) {
-    //    var a = places[i];
-    //    var title = a[2];
-    //   var marker = L.marker(new L.LatLng(a[0], a[1]), {
-    //       icon: L.mapbox.marker.icon({'marker-symbol': 'post', 'marker-color': '0044FF'}),
-    //        title: title
-    //    });
 		
 	var geoJsonLayer = L.geoJson(places, {
 		onEachFeature: function (feature, layer) {
+			icon: L.mapbox.marker.icon({'marker-symbol': 'circle', 'marker-color': '031148'}),
 			layer.bindPopup("<b>" + feature.properties.name + "</b><hr>Country: " + feature.properties.adm0name + "<br>Population: " + feature.properties.pop_max + "<hr><button href='#'>Project Details</button>");
 		}
 	});
