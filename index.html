@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+  <script src='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.js'></script>
+  <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.0.2/mapbox.ie.css' rel='stylesheet' >
+  <![endif]-->
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+<body>
+<link rel="stylesheet" href="css/markercluster.css" />
+<!--[if lte IE 8]>
+  <link rel="stylesheet" href="css/markercluster.ie.css" />
+<![endif]-->
+<script src="js/leaflet.markercluster.js"></script>
+
+<!-- Example data. -->
+<script src="js/pop_places.js"></script>
+
+<div id='map'></div>
+
+<script type='text/javascript'>
+    var map = L.mapbox.map('map', 'dai.map-38z2we2g', {maxZoom: 6})
+        .setView([10, 0], 3);
+
+    var markers = new L.MarkerClusterGroup();
+
+    //for (var i = 0; i < places.length; i++) {
+    //    var a = places[i];
+    //    var title = a[2];
+    //   var marker = L.marker(new L.LatLng(a[0], a[1]), {
+    //       icon: L.mapbox.marker.icon({'marker-symbol': 'post', 'marker-color': '0044FF'}),
+    //        title: title
+    //    });
+		
+	var geoJsonLayer = L.geoJson(places, {
+		onEachFeature: function (feature, layer) {
+			layer.bindPopup("<b>" + feature.properties.name + "</b><hr>Country: " + feature.properties.adm0name + "<br>Population: " + feature.properties.pop_max + "<hr><button href='#'>Project Details</button>");
+		}
+	});
+	markers.addLayer(geoJsonLayer);
+
+    map.addLayer(markers);
+</script>
+</body>
+</html>
