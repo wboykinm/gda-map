@@ -14,13 +14,11 @@
 </head>
 <body>
 <link rel="stylesheet" href="css/markercluster.css" />
+<link rel="stylesheet" href="css/table.css" />
 <!--[if lte IE 8]>
   <link rel="stylesheet" href="css/markercluster.ie.css" />
 <![endif]-->
 <script src="js/leaflet.markercluster.js"></script>
-
-<!-- Example data. -->
-<script src="js/pop_places.js"></script>
 
 <div id='map'></div>
 
@@ -29,11 +27,14 @@
         .setView([10, 0], 3);
 
     var markers = new L.MarkerClusterGroup();
-		
-	var geoJsonLayer = L.geoJson(places, {
+	
+	//Pull in the queried partnerships as geojson, generated as "var geometry" in a php routine	
+	var geoJsonLayer = L.geoJson(geometry, {
         onEachFeature: function (feature, layer) {
+		    //Set market symbol as a generic one - varying colors can be added later
             layer.setIcon(L.mapbox.marker.icon({'marker-symbol': 'circle-stroked', 'marker-color': '59245f'}));
-            layer.bindPopup("<b>" + feature.properties.name + "</b><hr>Country: " + feature.properties.adm0name + "<br>Population: " + feature.properties.pop_max + "<hr><button href='#'>Project Details</button>");
+            //Construct popup with partnership data from the DB
+			layer.bindPopup("<h2>" + feature.properties.name + "</h2><em>" + feature.properties.country + ", " + feature.properties.start_date + "-" + feature.properties.end_date + "</em><hr><p>" + feature.properties.description + "</p><table class='table table-condensed'><tr><td><b>Sector</b></td><td>" + feature.properties.sector + "</td></tr><tr><td><b>Status</b></td><td>" + feature.properties.status + "</td></tr><tr><td><b>Total Lifetime Investment</b></td><td>" + feature.properties.total_invest + "</td></tr><tr><td><b>USG Investment</b></td><td>" + feature.properties.usg_invest + "</td></tr><tr><td><b>Non-USG Investment</b></td><td>" + feature.properties.non_usg_invest + "</td></tr><tr><td><b>Multi-Country Project?</b></td><td>" + feature.properties.ismulticountry + "</td></tr></table>");
 		}
 	});
 	markers.addLayer(geoJsonLayer);
